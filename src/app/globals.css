@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-noche-950: #060d1d;
+  --color-noche-900: #0b1a33;
+  --color-noche-800: #13284d;
+  --color-noche-700: #1d3a68;
+  --color-noche-600: #2a4d85;
+  --color-pino-800: #0f3a22;
+  --color-pino-700: #164a2e;
+  --color-pino-600: #1f5e3b;
+  --color-pino-500: #2f7d52;
+  --color-arandano-800: #6e1225;
+  --color-arandano-700: #8e1830;
+  --color-arandano-600: #b3203d;
+  --color-arandano-500: #d0344f;
+  --color-oro-300: #f7dc94;
+  --color-oro-400: #f2cd6b;
+  --color-oro-500: #e8b94a;
+  --color-oro-600: #c99a2e;
+  --color-nieve: #f8f6f0;
+  --color-nieve-200: #e9e5da;
+
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --font-sans: ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --animate-twinkle: twinkle 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes snow-fall {
+  from { transform: translate3d(0, -10vh, 0); }
+  to { transform: translate3d(var(--drift, 20px), 110vh, 0); }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-noche-950);
+}
+
+body {
+  min-height: 100dvh;
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(42, 77, 133, 0.55), transparent 70%),
+    radial-gradient(900px 500px at 100% 100%, rgba(22, 74, 46, 0.35), transparent 70%),
+    linear-gradient(180deg, var(--color-noche-900), var(--color-noche-950));
+  color: var(--color-nieve);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco siempre visible para teclado (en base para que las utilidades puedan ajustarlo) */
+@layer base {
+  :focus-visible {
+    outline: 3px solid var(--color-oro-400);
+    outline-offset: 3px;
+  }
+}
+
+.snowflake {
+  position: absolute;
+  top: 0;
+  border-radius: 9999px;
+  background: white;
+  opacity: 0.8;
+  animation: snow-fall linear infinite;
+  will-change: transform;
+}
+
+/* Reducir movimiento: preferencia del sistema o del interruptor de la app */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .snowflake { display: none; }
+}
+
+html[data-reduce-motion="true"] *,
+html[data-reduce-motion="true"] *::before,
+html[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+html[data-reduce-motion="true"] .snowflake { display: none; }
+
+/* Papel de carta */
+.paper {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 31px, rgba(29, 58, 104, 0.12) 31px 32px),
+    linear-gradient(180deg, #fffdf6, #f6efdc);
+  color: var(--color-noche-900);
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
